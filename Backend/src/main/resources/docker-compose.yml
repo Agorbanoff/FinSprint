@@ -1,18 +1,12 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16
-    container_name: postgres-db
-    restart: always
+    container_name: finsprint-db
     environment:
-      POSTGRES_DB: FinSprintDB
-      POSTGRES_USER: User
-      POSTGRES_PASSWORD: 1AlexRaya1
+      POSTGRES_DB: finsprintdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ilikepizza
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
+      - postgres-data:/var/lib/postgresql/data
