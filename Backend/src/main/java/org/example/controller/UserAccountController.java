@@ -2,8 +2,8 @@ package org.example.controller;
 
 import org.example.controller.Model.TokenResponseDTO;
 import org.example.controller.Model.UserAccountDTO;
-import org.example.exceptions.EmailAlreadyInUseException;
-import org.example.exceptions.WrongCredentialsException;
+import org.example.common.exceptions.EmailAlreadyInUseException;
+import org.example.common.exceptions.WrongCredentialsException;
 import org.example.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

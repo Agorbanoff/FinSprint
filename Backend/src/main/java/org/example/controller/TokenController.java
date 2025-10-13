@@ -1,5 +1,6 @@
 package org.example.controller;
-import org.example.exceptions.ExpiredTokenException;
+import org.example.common.exceptions.ExpiredTokenException;
+import org.example.common.exceptions.WrongCredentialsException;
 import org.example.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class TokenController {
     }
 
 @PostMapping("/access")
-    public ResponseEntity<String> getAccessToken(String refreshToken) throws ExpiredTokenException {
+    public ResponseEntity<String> getAccessToken(String refreshToken) throws WrongCredentialsException {
         String response = jwtService.getAccessToken(refreshToken);
         return ResponseEntity
                 .status(HttpStatus.OK)

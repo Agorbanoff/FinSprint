@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.example.exceptions.WrongCredentialsException;
+import org.example.common.exceptions.WrongCredentialsException;
 import org.example.persistence.model.JwtEntity;
 import org.example.persistence.model.UserAccountEntity;
 import org.example.persistence.repository.JwtRepository;
@@ -83,7 +83,7 @@ public class JwtService {
         jwtRepository.deleteByUserAccount_Id(id);
     }
 
-    public String getAccessToken(String token) {
+    public String getAccessToken(String token) throws WrongCredentialsException {
         if (jwtValidation.validateToken(token)) {
             Claims claims = jwtValidation.getClaims(token);
             int userId = Integer.parseInt(claims.getSubject());

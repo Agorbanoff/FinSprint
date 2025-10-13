@@ -2,8 +2,8 @@ package org.example.service;
 
 import org.example.controller.Model.TokenResponseDTO;
 import org.example.controller.Model.UserAccountDTO;
-import org.example.exceptions.EmailAlreadyInUseException;
-import org.example.exceptions.WrongCredentialsException;
+import org.example.common.exceptions.EmailAlreadyInUseException;
+import org.example.common.exceptions.WrongCredentialsException;
 import org.example.persistence.model.UserAccountEntity;
 import org.example.persistence.repository.UserAccountRepository;
 import org.example.validators.JwtValidation;
@@ -27,7 +27,7 @@ public class UserAccountService {
         this.jwtValidation = jwtValidation;
     }
 
-    public TokenResponseDTO signUp(UserAccountDTO userAccountDTO) {
+    public TokenResponseDTO signUp(UserAccountDTO userAccountDTO) throws EmailAlreadyInUseException {
         if (userAccountRepository.existsByEmail(userAccountDTO.getEmail())) {
             throw new EmailAlreadyInUseException("Email is already in use!");
         }
@@ -52,7 +52,7 @@ public class UserAccountService {
         return tokenResponseDTO;
     }
 
-    public TokenResponseDTO logIn(UserAccountDTO userAccountDTO) {
+    public TokenResponseDTO logIn(UserAccountDTO userAccountDTO) throws WrongCredentialsException {
         UserAccountEntity user = userAccountRepository.findByEmail(userAccountDTO.getEmail());
 
         if (user == null || !passwordEncoder.matches(userAccountDTO.getPassword(), user.getPassword())) {
