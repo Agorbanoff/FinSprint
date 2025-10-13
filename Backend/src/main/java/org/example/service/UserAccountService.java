@@ -75,6 +75,6 @@ public class UserAccountService {
 
     public void logOut(String refreshToken) {
         String userId = jwtValidation.getClaims(refreshToken).getSubject();
-        jwtService.deleteRefreshToken(userId);
+        jwtService.deleteRefreshToken(Integer.valueOf(userId));
     }
 }

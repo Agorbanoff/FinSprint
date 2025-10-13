@@ -34,7 +34,6 @@ public class JwtService {
     }
 
 
-
     public String generateAccessToken(int userId, String email) {
         long now = System.currentTimeMillis();
         long ACCESS_EXPIRATION = 1000 * 60 * 15;
@@ -80,8 +79,8 @@ public class JwtService {
     }
 
 
-    public void deleteRefreshToken(String id) {
-        jwtRepository.deleteByUserId(id);
+    public void deleteRefreshToken(Integer id) {
+        jwtRepository.deleteByUserAccount_Id(id);
     }
 
     public String getAccessToken(String token) {
@@ -92,7 +91,6 @@ public class JwtService {
                     .orElseThrow(() -> new WrongCredentialsException("User not found"));
             return generateAccessToken(userId, user.getEmail());
         }
-
         return null;
     }
 
