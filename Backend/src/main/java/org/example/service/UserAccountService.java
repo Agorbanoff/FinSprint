@@ -5,6 +5,7 @@ import org.example.controller.Model.UserAccountDTO;
 import org.example.common.exceptions.EmailAlreadyInUseException;
 import org.example.common.exceptions.WrongCredentialsException;
 import org.example.persistence.model.UserAccountEntity;
+import org.example.persistence.repository.JwtRepository;
 import org.example.persistence.repository.UserAccountRepository;
 import org.example.validators.JwtValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,19 @@ public class UserAccountService {
     private final JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtValidation jwtValidation;
+    private final JwtRepository jwtRepository;
 
     @Autowired
-    public UserAccountService(UserAccountRepository userAccountRepository, JwtService jwtService, BCryptPasswordEncoder passwordEncoder, JwtValidation jwtValidation) {
+    public UserAccountService(UserAccountRepository userAccountRepository,
+                              JwtService jwtService,
+                              BCryptPasswordEncoder passwordEncoder,
+                              JwtValidation jwtValidation,
+                              JwtRepository jwtRepository) {
         this.userAccountRepository = userAccountRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.jwtValidation = jwtValidation;
+        this.jwtRepository = jwtRepository;
     }
 
     public TokenResponseDTO signUp(UserAccountDTO userAccountDTO) throws EmailAlreadyInUseException {
@@ -75,6 +82,6 @@ public class UserAccountService {
 
     public void logOut(String refreshToken) {
         String userId = jwtValidation.getClaims(refreshToken).getSubject();
-        jwtService.deleteRefreshToken(Integer.valueOf(userId));
+        jwtRepository.deleteRefreshTokenById(Integer.valueOf(userId));
     }
 }

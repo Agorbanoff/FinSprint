@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/token")
 public class TokenController {
 
-    JwtService jwtService;
+    private final JwtService jwtService;
 
     @Autowired
     public TokenController(JwtService jwtService) {

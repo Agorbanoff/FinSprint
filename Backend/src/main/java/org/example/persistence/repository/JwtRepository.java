@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JwtRepository extends JpaRepository<JwtEntity, Integer> {
-    void deleteByUserAccount_Id(Integer userId);
+    void deleteRefreshTokenById(Integer integer);
 }

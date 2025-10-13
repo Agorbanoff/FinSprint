@@ -78,11 +78,6 @@ public class JwtService {
         jwtRepository.save(jwtEntity);
     }
 
-
-    public void deleteRefreshToken(Integer id) {
-        jwtRepository.deleteByUserAccount_Id(id);
-    }
-
     public String getAccessToken(String token) throws WrongCredentialsException {
         if (jwtValidation.validateToken(token)) {
             Claims claims = jwtValidation.getClaims(token);

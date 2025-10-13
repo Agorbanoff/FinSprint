@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/account")
 public class UserAccountController {
-
-    UserAccountService userAccountService;
+    private final UserAccountService userAccountService;
 
     @Autowired
     public UserAccountController(UserAccountService userAccountService) {
