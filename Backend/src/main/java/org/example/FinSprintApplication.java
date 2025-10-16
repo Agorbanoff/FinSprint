@@ -19,7 +19,7 @@ public class FinSprintApplication {
 
 	@PostConstruct
 	public void logConnectionDetails() {
-		System.out.println("☕️ Using DB user: " + username);
-		System.out.println("🔐 Using DB password: " + password);
+		System.out.println("Using DB user: " + username);
+		System.out.println("Using DB password: " + password);
 	}
 }

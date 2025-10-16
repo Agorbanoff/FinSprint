@@ -1,5 +1,7 @@
 package org.example.service;
 
+
+import org.example.common.exceptions.UserNotFoundException;
 import org.example.controller.Model.TokenResponseDTO;
 import org.example.controller.Model.UserAccountDTO;
 import org.example.common.exceptions.EmailAlreadyInUseException;
@@ -11,6 +13,7 @@ import org.example.validators.JwtValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserAccountService {
@@ -49,7 +52,6 @@ public class UserAccountService {
         int userId = (savedUser.getId());
         String accessToken = jwtService.generateAccessToken(userId, userAccountDTO.getEmail());
         String refreshToken = jwtService.generateRefreshToken(String.valueOf(userId));
-
         jwtService.saveRefreshToken(refreshToken);
 
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
@@ -59,18 +61,19 @@ public class UserAccountService {
         return tokenResponseDTO;
     }
 
-    public TokenResponseDTO logIn(UserAccountDTO userAccountDTO) throws WrongCredentialsException {
-        UserAccountEntity user = userAccountRepository.findByEmail(userAccountDTO.getEmail());
-
-        if (user == null || !passwordEncoder.matches(userAccountDTO.getPassword(), user.getPassword())) {
-            throw new WrongCredentialsException("Wrong credentials!");
+    @Transactional
+    public TokenResponseDTO logIn(UserAccountDTO userAccountDTO) throws UserNotFoundException, WrongCredentialsException {
+        UserAccountEntity user = userAccountRepository.findByEmail(userAccountDTO.getEmail()).orElseThrow(() ->
+                                                        new UserNotFoundException("Email not found!"));
+        if (!passwordEncoder.matches(userAccountDTO.getPassword(), user.getPassword())) {
+            throw new WrongCredentialsException("Wrong password");
         }
 
+        jwtRepository.deleteRefreshTokenByUserAccount(user);
+
         int userId = user.getId();
-
-        String accessToken = jwtService.generateAccessToken(userId, userAccountDTO.getEmail());
+        String accessToken = jwtService.generateAccessToken(userId, user.getEmail());
         String refreshToken = jwtService.generateRefreshToken(String.valueOf(userId));
-
         jwtService.saveRefreshToken(refreshToken);
 
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
@@ -82,6 +85,6 @@ public class UserAccountService {
 
     public void logOut(String refreshToken) {
         String userId = jwtValidation.getClaims(refreshToken).getSubject();
-        jwtRepository.deleteRefreshTokenById(Integer.valueOf(userId));
+        jwtRepository.deleteByUserAccount_Id(Integer.valueOf(userId));
     }
 }

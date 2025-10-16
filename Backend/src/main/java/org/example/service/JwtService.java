@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.sql.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -59,15 +60,14 @@ public class JwtService {
                 .compact();
     }
 
-    public void saveRefreshToken(String token) {
-        JwtEntity jwtEntity = new JwtEntity();
-
+    public void saveRefreshToken(String token){
         Claims claims = jwtValidation.getClaims(token);
-
         Integer userId = Integer.parseInt(claims.getSubject());
-
         UserAccountEntity user = userAccountRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<JwtEntity> existing = jwtRepository.findByUserAccount(user);
+        JwtEntity jwtEntity = existing.orElseGet(JwtEntity::new);
 
         jwtEntity.setRefreshToken(token);
         jwtEntity.setUserAccount(user);

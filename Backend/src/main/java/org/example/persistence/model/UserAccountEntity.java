@@ -24,9 +24,10 @@ public class UserAccountEntity {
     private String email;
 
     @Column()
-    @Size(min = 8, max = 16, message = "Password must be between 8 and 16 characters long")
+    //@Size(min = 8, max = 16, message = "Password must be between 8 and 16 characters long")
     private String password;
 
     @OneToOne(mappedBy = "userAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private JwtEntity jwtEntity;
+
 }
