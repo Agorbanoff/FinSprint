@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import SignUp from "./pages/signup/index.jsx";
 import Login from "./pages/login/index.jsx";

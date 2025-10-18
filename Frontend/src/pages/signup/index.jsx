@@ -1,5 +1,6 @@
 import "./index.css"
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function SignUp(){
     const [submit, setSubmit] = useState("nema");
@@ -16,8 +17,7 @@ function SignUp(){
             <input type = "text" placeholder="Enter username" /><br/>
             <input type = "password" placeholder="Enter password"/><br/>
            <input type = "password" placeholder="Enter password" onChange={handleChangePassword}/><br/>
-            <p>Already have an account? <a href="../login
-            ">Login</a></p>
+            <p>Already have an account? <Link to="/login">Login</Link></p>
             <button className="createButton" >Create account</button> 
         </div>
     );

@@ -8,7 +8,7 @@ function Login() {
       <input type="text" placeholder="Enter username" /><br />
       <input type="password" placeholder="Enter password" /><br />
       <button className="createButton">Log in</button> 
-      <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+      <p>Don't have an account? <Link to="../signup">Sign Up</Link></p>
     </div>
   );
 }
