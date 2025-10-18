@@ -1,17 +1,16 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import SignUp from "./pages/signup/index.jsx";
-import Login from "./pages/login/index.jsx";
+import Login from "./pages/login/index";
+import SignUp from "./pages/signup/index";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
-      {/* Optional: default route */}
-      <Route path="*" element={<div>Page Not Found</div>} />
-    </Routes>
-  );
+    return (
+        <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="*" element={<div>Page Not Found</div>} />
+        </Routes>
+    );
 }
 
 export default App;
