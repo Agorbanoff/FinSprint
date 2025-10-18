@@ -8,7 +8,6 @@ function App() {
     <Routes>
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
-      {/* Optional: default route */}
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
   );
